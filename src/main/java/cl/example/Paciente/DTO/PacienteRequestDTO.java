@@ -17,16 +17,15 @@ public class PacienteRequestDTO {
     private String run;
 
     @NotBlank(message = "El PRIMER NOMBRE no puede estar VACIO")
-    private String PNombre;
+    private String pNombre;
 
-    @NotBlank(message = "El SEGUNDO NOMBRE no puede estar VACIO")
-    private String SNombre;
+    private String sNombre;
 
     @NotBlank(message = "El PRIMER APELLIDO no puede estar VACIO")
-    private String PApellido;
+    private String pApellido;
 
     @NotBlank(message = "El SEGUNDO NOMBRE no puede estar VACIO")
-    private String SApellido;
+    private String sApellido;
 
     @NotNull(message = "La FECHA es OBLIGATORIA")
     private Date fechaNacimiento;

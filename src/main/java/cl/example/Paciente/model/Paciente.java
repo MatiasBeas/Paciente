@@ -14,25 +14,24 @@ import java.util.Date;
 @Table(name = "pacientes")
 public class Paciente {
     @Id
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String run;
 
     @Column(nullable = false, length = 100)
-    private String PNombre;
+    private String pNombre;
 
     @Column(nullable = true, length = 100)
-    private String SNombre;
+    private String sNombre;
 
     @Column(nullable = false, length = 100)
-    private String PApellido;
+    private String pApellido;
 
     @Column(nullable = false, length = 100)
-    private String SApellido;
+    private String sApellido;
 
     @Column(nullable = false)
     private Date fechaNacimiento;
 
-    @ManyToOne
-    @JoinColumn(name = "previsionId", nullable = false)
+    @Column(nullable = false)
     private Long idPrevision;
 }

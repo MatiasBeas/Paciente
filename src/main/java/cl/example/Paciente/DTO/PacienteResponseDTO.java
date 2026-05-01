@@ -1,8 +1,6 @@
 package cl.example.Paciente.DTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,5 +19,5 @@ public class PacienteResponseDTO {
     private String SApellido;
 
     private Date fechaNacimiento;
-    private Long idPrevision;
+    private String nombrePrevision;
 }
