@@ -48,6 +48,7 @@ public class PacienteService {
     }
 
     public PacienteResponseDTO guardar(PacienteRequestDTO dto){
+        log.info("Creando nuevo Paciente");
         Paciente paciente = new Paciente(
                 dto.getRun(),
                 dto.getPNombre(),
@@ -61,6 +62,7 @@ public class PacienteService {
     }
 
     public Optional<PacienteResponseDTO> actualizar (String run, PacienteRequestDTO dto){
+        log.info("Actualizando el Paciente con el RUN:" + run);
         return pacienteRepository.findById(run).map(existente ->{
             existente.setPNombre(dto.getPNombre());
             existente.setSNombre(dto.getSNombre());
@@ -74,5 +76,6 @@ public class PacienteService {
 
     public void eliminar(String run){
         pacienteRepository.deleteById(run);
+        log.info("Eliminando el Paciente con el RUN:" + run);
     }
 }
