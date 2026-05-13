@@ -42,6 +42,7 @@ public class PacienteService {
     }
 
     public Optional<PacienteResponseDTO> obtenerPorRun(String run) {
+        log.info("Consultando el Paciente con el RUN:" + run);
         return pacienteRepository.findById(run).map(this::mapToDTO);
 
     }
