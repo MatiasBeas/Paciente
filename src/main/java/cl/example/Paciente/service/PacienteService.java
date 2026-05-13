@@ -6,12 +6,14 @@ import cl.example.Paciente.model.Paciente;
 import cl.example.Paciente.repository.PacienteRepository;
 import cl.example.Paciente.webclient.PrevisionClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PacienteService {
@@ -34,6 +36,7 @@ public class PacienteService {
     }
 
     public List<PacienteResponseDTO> obtenerTodos() {
+        log.info("Consultando TODOS los Pacientes");
         return pacienteRepository.findAll().stream()
                 .map(this::mapToDTO).collect(Collectors.toList());
     }
