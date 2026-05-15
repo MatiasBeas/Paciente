@@ -16,6 +16,7 @@ import java.util.List;
 public class PacienteController {
     private final PacienteService pacienteService;
 
+    //-----------------BUSCAR PACIENTE DE DISTINTAS FORMAS----------
     @GetMapping
     public ResponseEntity<List<PacienteResponseDTO>>obtenerTodos(){
         return ResponseEntity.ok(pacienteService.obtenerTodos());
@@ -28,18 +29,26 @@ public class PacienteController {
 
     }
 
+    @GetMapping("/prevision/{idPrevision}")
+    public ResponseEntity<List<PacienteResponseDTO>> obtenerPorPrevision(@PathVariable Long idPrevision) {
+        return ResponseEntity.ok(pacienteService.obtenerPorPrevision(idPrevision));
+    }
+
+    //-----------------GUARDAR PACIENTE----------
     @PostMapping
-    public ResponseEntity<PacienteResponseDTO> crearPaciente(@Valid @RequestBody PacienteRequestDTO dto){
+    public ResponseEntity<PacienteResponseDTO> guardarPaciente(@Valid @RequestBody PacienteRequestDTO dto){
         PacienteResponseDTO response = pacienteService.guardar(dto);
         return ResponseEntity.status(201).body(response);
     }
 
+    //-----------------ACTUALIZACION PACIENTE----------
     @PutMapping("{run}")
     public ResponseEntity<PacienteResponseDTO> actualizar(@PathVariable String run, @Valid @RequestBody PacienteRequestDTO dto){
         return pacienteService.actualizar(run,dto).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    //-----------------ELIMINAR PACIENTE----------
     @DeleteMapping("/{run}")
     public ResponseEntity<Void> eliminar(@PathVariable String run){
         if (pacienteService.obtenerPorRun(run).isEmpty()){

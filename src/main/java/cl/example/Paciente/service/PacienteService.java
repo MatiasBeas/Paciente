@@ -20,7 +20,7 @@ public class PacienteService {
     private final PacienteRepository pacienteRepository;
     private final PrevisionClient previsionClient;
 
-    //MapeoPrivado: Entidad -> ResponseDTO
+    //-----------------MAPEO PRIVADO: PACIENTE -> ResponseDTO----------
     private PacienteResponseDTO mapToDTO(Paciente paciente) {
         String nombrePrevision = previsionClient
                 .obtenerNombrePrevision(paciente.getIdPrevision());
@@ -35,11 +35,14 @@ public class PacienteService {
         );
     }
 
+
+    //-----------------BUSCAR PACIENTE DE DISTINTAS FORMAS----------
     public List<PacienteResponseDTO> obtenerTodos() {
         log.info("Consultando TODOS los Pacientes");
         return pacienteRepository.findAll().stream()
                 .map(this::mapToDTO).collect(Collectors.toList());
     }
+
 
     public Optional<PacienteResponseDTO> obtenerPorRun(String run) {
         log.info("Consultando el Paciente con el RUN:" + run);
@@ -47,6 +50,15 @@ public class PacienteService {
 
     }
 
+    public List<PacienteResponseDTO> obtenerPorPrevision(Long idPrevision) {
+        log.info("Consultando Pacientes con idPrevision: " + idPrevision);
+        return pacienteRepository.findByIdPrevision(idPrevision).stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    //-----------------CREACION PACIENTE----------
     public PacienteResponseDTO guardar(PacienteRequestDTO dto){
         log.info("Creando nuevo Paciente");
         Paciente paciente = new Paciente(
@@ -61,6 +73,7 @@ public class PacienteService {
         return mapToDTO(pacienteRepository.save(paciente));
     }
 
+    //-----------------ACTUALIZACION PACIENTE----------
     public Optional<PacienteResponseDTO> actualizar (String run, PacienteRequestDTO dto){
         log.info("Actualizando el Paciente con el RUN:" + run);
         return pacienteRepository.findById(run).map(existente ->{
@@ -74,6 +87,7 @@ public class PacienteService {
         });
     }
 
+    //-----------------ELIMINAR PACIENTE----------
     public void eliminar(String run){
         pacienteRepository.deleteById(run);
         log.info("Eliminando el Paciente con el RUN:" + run);
