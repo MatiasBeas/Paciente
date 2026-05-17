@@ -58,9 +58,9 @@ public class PacienteService {
     }
 
 
-    //-----------------CREACION PACIENTE----------
+    //-----------------GUARDAR PACIENTE----------
     public PacienteResponseDTO guardar(PacienteRequestDTO dto){
-        log.info("Creando nuevo Paciente");
+        log.info("Guardando nuevo Paciente");
         Paciente paciente = new Paciente(
                 dto.getRun(),
                 dto.getPNombre(),
