@@ -59,8 +59,13 @@ public class PacienteService {
 
 
     //-----------------GUARDAR PACIENTE----------
-    public PacienteResponseDTO guardar(PacienteRequestDTO dto){
+    public PacienteResponseDTO guardar(PacienteRequestDTO dto) {
         log.info("Guardando nuevo Paciente");
+
+        // AGREGAR ESTO
+        if (!previsionClient.existePrevision(dto.getIdPrevision())) {
+            throw new RuntimeException("La prevision con ID " + dto.getIdPrevision() + " no existe.");
+        }
         Paciente paciente = new Paciente(
                 dto.getRun(),
                 dto.getPNombre(),
@@ -73,10 +78,16 @@ public class PacienteService {
         return mapToDTO(pacienteRepository.save(paciente));
     }
 
+
     //-----------------ACTUALIZACION PACIENTE----------
-    public Optional<PacienteResponseDTO> actualizar (String run, PacienteRequestDTO dto){
+    public Optional<PacienteResponseDTO> actualizar(String run, PacienteRequestDTO dto) {
         log.info("Actualizando el Paciente con el RUN:" + run);
-        return pacienteRepository.findById(run).map(existente ->{
+
+        // AGREGAR ESTO
+        if (!previsionClient.existePrevision(dto.getIdPrevision())) {
+            throw new RuntimeException("La prevision con ID " + dto.getIdPrevision() + " no existe.");
+        }
+        return pacienteRepository.findById(run).map(existente -> {
             existente.setPNombre(dto.getPNombre());
             existente.setSNombre(dto.getSNombre());
             existente.setPApellido(dto.getPApellido());

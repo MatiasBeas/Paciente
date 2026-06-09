@@ -25,4 +25,19 @@ public class PrevisionClient {
             return "Sin prevision";
         }
     }
+
+    // AGREGAR ESTE METODO
+    public boolean existePrevision(Long idPrevision) {
+        try {
+            Map response = webClient
+                    .get()
+                    .uri("/previsiones/" + idPrevision)
+                    .retrieve()
+                    .bodyToMono(Map.class)
+                    .block();
+            return response != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
