@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PacienteService {
+
     private final PacienteRepository pacienteRepository;
     private final PrevisionClient previsionClient;
 
