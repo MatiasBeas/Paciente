@@ -1,10 +1,14 @@
 package cl.example.Paciente.config;
 
 import cl.example.Paciente.model.Paciente;
+import cl.example.Paciente.model.Role;
+import cl.example.Paciente.model.User;
 import cl.example.Paciente.repository.PacienteRepository;
+import cl.example.Paciente.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -12,12 +16,26 @@ import java.text.SimpleDateFormat;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DataInitializer  implements CommandLineRunner {
+public class DataInitializer implements CommandLineRunner {
+
     private final PacienteRepository pacienteRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
 
+        // Crear usuario si no existe
+        if (userRepository.findByUsername("Maty").isEmpty()) {
+            User user = new User();
+            user.setUsername("Maty");
+            user.setPassword(passwordEncoder.encode("1234"));
+            user.setRole(Role.ADMIN);
+            userRepository.save(user);
+            log.info(">>> DataInitializer: Usuario Maty creado correctamente.");
+        }
+
+        // Insertar pacientes si la BD está vacía
         if (pacienteRepository.count() > 0) {
             log.info(">>> DataInitializer: la BD ya tiene datos, se omite la carga inicial.");
             return;
@@ -33,8 +51,6 @@ public class DataInitializer  implements CommandLineRunner {
         pacienteRepository.save(new Paciente("22.222.222-2", "Ana", "Lucía", "Torres", "Vega", sdf.parse("1978-11-30"), 3L));
         pacienteRepository.save(new Paciente("10.333.333-3", "Pedro", null, "Muñoz", "Rojas", sdf.parse("1995-03-08"), 2L));
 
-        log.info(">>> DataInitializer: {} pacientes insertados correctamente.",
-                pacienteRepository.count());
+        log.info(">>> DataInitializer: {} pacientes insertados correctamente.", pacienteRepository.count());
     }
-
 }

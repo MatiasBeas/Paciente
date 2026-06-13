@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,7 +16,9 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI customOpenApi() {
-        return new OpenAPI().info(new Info()
+        return new OpenAPI()
+                .addServersItem(new Server().url("http://localhost:8500"))
+                .info(new Info()
                 .title("Api de Pacientes")
                 .version("1.1.0")
                 .description("Documentacion para Microservicio Paciente")
