@@ -4,13 +4,13 @@ import cl.example.Paciente.Assemblers.PacienteAssembler;
 import cl.example.Paciente.DTO.PacienteRequestDTO;
 import cl.example.Paciente.DTO.PacienteResponseDTO;
 import cl.example.Paciente.controller.PacienteController;
-import cl.example.Paciente.security.JwtAuthFilter;
 import cl.example.Paciente.security.JwtService;
 import cl.example.Paciente.service.PacienteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.EntityModel;
@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PacienteController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @Import(PacienteAssembler.class)
 @DisplayName("Tests unitarios - PacienteController")
 class PacienteControllerTest {
@@ -49,9 +50,6 @@ class PacienteControllerTest {
 
     @MockitoBean
     private JwtService jwtService;
-
-    @MockitoBean
-    private JwtAuthFilter jwtAuthFilter;
 
     private PacienteResponseDTO buildResponse() {
         return new PacienteResponseDTO(
